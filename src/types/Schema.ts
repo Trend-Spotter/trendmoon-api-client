@@ -105,8 +105,8 @@ export interface Chat {
   title?: string | null;
   member_count?: number | null;
   member_online_count?: number | null;
-  num_messages?: number | null; // Ajouté pour correspondre aux tests
-  num_unique_users?: number | null; // Ajouté pour correspondre aux tests
+  num_messages?: number | null; // Added to match tests
+  num_unique_users?: number | null; // Added to match tests
   bot_count?: number | null;
   blacklisted?: boolean | null;
   blacklist_reason?: string | null;
@@ -324,12 +324,12 @@ export interface ServiceStatusResponse {
 export interface GroupStatusResponse {
   status: string; // 'found', 'not_monitored', or 'not_found'
   message: string;
-  group_username?: string | null; // Ajouté pour correspondre aux tests
-  title?: string | null; // Ajouté pour correspondre aux tests
-  member_count?: number | null; // Ajouté pour correspondre aux tests
-  num_messages?: number | null; // Ajouté pour correspondre aux tests
-  num_unique_users?: number | null; // Ajouté pour correspondre aux tests
-  member_online_count?: number | null; // Ajouté pour correspondre aux tests
+  group_username?: string | null; // Added to match tests
+  title?: string | null; // Added to match tests
+  member_count?: number | null; // Added to match tests
+  num_messages?: number | null; // Added to match tests
+  num_unique_users?: number | null; // Added to match tests
+  member_online_count?: number | null; // Added to match tests
 }
 
 export interface GroupAddRequest {
@@ -340,12 +340,12 @@ export interface GroupAddResponse {
   message: string;
 }
 
-// Modifié pour refléter que GetAllGroupsResponse est un tableau direct d'objets,
-// et non un objet avec une propriété 'groups'.
+// Modified to reflect that GetAllGroupsResponse is a direct array of objects,
+// not an object with a 'groups' property.
 export type GroupsListResponse = Array<{
   group_username: string;
   chat_id: number;
-  // Ajoutez d'autres propriétés si elles sont retournées dans les éléments du tableau
+  // Add other properties if they are returned in the array elements
   title?: string | null;
   member_count?: number | null;
   num_messages?: number | null;
@@ -367,36 +367,36 @@ export interface TopAlertsResponse { // This matches your example 'Alert'
   mentions_upper_band: number;
   price_momentum: number;
   price_pct_change: number;
-  volume_pct_change?: number; // J'ai dû ajouter un point d'interrogation car la ligne était coupée.
+  volume_pct_change?: number; // Added question mark as the line was cut off
 }
 
-// Interface manquante pour TopCategoriesResponse, ajoutée sur la base d'un nom intuitif.
-// Si vous avez une définition OpenAPI/Swagger pour cela, veuillez me la fournir.
+// Missing interface for TopCategoriesResponse, added based on intuitive naming.
+// If you have an OpenAPI/Swagger definition for this, please provide it.
 export interface TopCategoriesResponse {
   category: string;
-  // Ajoutez d'autres propriétés si nécessaires
+  // Add other properties if needed
   // score?: number;
   // some_other_property?: string;
 }
 
-// Interface pour les objets "Coin" à l'intérieur des catégories (héritée ou non)
+// Interface for "Coin" objects inside categories (inherited or not)
 export interface CategoryCoinItem {
   coin_id: string;
   name: string;
   symbol: string;
-  // Ajoutez d'autres propriétés que les objets coins de la catégorie pourraient avoir,
-  // par exemple, market_cap, rank, etc.
+  // Add other properties that category coin objects might have,
+  // for example, market_cap, rank, etc.
   // market_cap?: number;
 }
 
-// Interface CategoryCoinLegacyResponse mise à jour
+// Updated CategoryCoinLegacyResponse interface
 export interface CategoryCoinLegacyResponse {
-  category_name: string; // Nom de la catégorie
-  coins: CategoryCoinItem[]; // Tableau des pièces de la catégorie (legacy)
+  category_name: string; // Category name
+  coins: CategoryCoinItem[]; // Array of category coins (legacy)
 }
 
-// Interface CategoryCoinResponse mise à jour
+// Updated CategoryCoinResponse interface
 export interface CategoryCoinResponse {
-  category_name: string; // Nom de la catégorie
-  coins: CategoryCoinItem[]; // Tableau des pièces de la catégorie
+  category_name: string; // Category name
+  coins: CategoryCoinItem[]; // Array of category coins
 }
