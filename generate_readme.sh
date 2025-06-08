@@ -34,7 +34,7 @@ cp .env.example .env
 
 \`\`\`typescript
 import { TrendmoonApiClient } from '${PACKAGE_NAME}';
-import { CategoryService } from '../src';
+import { CategoryService } from '${PACKAGE_NAME}';
 
 // Initialize the API client
 const apiClient = new TrendmoonApiClient();
