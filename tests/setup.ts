@@ -1,4 +1,9 @@
 import dotenv from 'dotenv';
+import { delay, API_RATE_LIMIT_DELAY } from './utils/testHelpers';
 
-// Charge les variables d'environnement depuis le fichier .env à la racine
 dotenv.config({ path: './.env' });
+
+
+beforeEach(async () => {
+    await delay();
+});

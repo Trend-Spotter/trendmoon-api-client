@@ -36,12 +36,18 @@ cp .env.example .env
 import { TrendmoonApiClient } from '${PACKAGE_NAME}';
 import { CategoryService } from '${PACKAGE_NAME}';
 
-// Initialize the API client
-const apiClient = new TrendmoonApiClient();
+async function main() {
+    // Initialize the API client
+    const apiClient = new TrendmoonApiClient();
 
-// Use the services
-const service = new CategoryService(apiClient);
-const result = await service.getAllCategories();
+    // Use the services
+    const service = new CategoryService(apiClient);
+    const result = await service.getAllCategories();
+
+    console.log(result);
+}
+
+main().catch(error => console.error('An error occurred:', error));
 \`\`\`
 
 ## Available Services

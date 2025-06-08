@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
     "prepare": "npm run build",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest --watch",
+    "test": "vitest --config vitest.config.ts",
+    "test:coverage": "vitest run --coverage --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
+    "test:watch": "vitest --watch --config vitest.config.ts",
     "dev": "tsc --watch"
   },
   "files": [
@@ -44,10 +44,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/votre-utilisateur/trendmoon-api-client.git"
+    "url": "git+https://github.com/Trend-Spotter/trendmoon-api-client.git"
   },
   "bugs": {
-    "url": "https://github.com/votre-utilisateur/trendmoon-api-client/issues"
+    "url": "https://github.com/Trend-Spotter/trendmoon-api-client/issues"
   },
-  "homepage": "https://github.com/votre-utilisateur/trendmoon-api-client#readme"
+  "homepage": "https://github.com/Trend-Spotter/trendmoon-api-client"
 }
