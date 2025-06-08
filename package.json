@@ -1,0 +1,53 @@
+{
+  "name": "@trendmoon/api-client",
+  "version": "0.1.0",
+  "description": "Official TypeScript client for Trendmoon API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch",
+    "dev": "tsc --watch"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "keywords": [
+    "trendmoon",
+    "api",
+    "client",
+    "typescript",
+    "sdk"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "dotenv": "^16.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "@types/node": "^20.0.0",
+    "@types/node-fetch": "^2.6.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/votre-utilisateur/trendmoon-api-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/votre-utilisateur/trendmoon-api-client/issues"
+  },
+  "homepage": "https://github.com/votre-utilisateur/trendmoon-api-client#readme"
+}
