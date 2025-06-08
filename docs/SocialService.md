@@ -515,3 +515,74 @@ export interface GetSpecificGroupParams {
 
 #### Returns
 ```typescript
+export type GetSocialTrendsResponse = Schema.SocialTrendResponse[];
+
+
+// --- Endpoint: /groups/status ---
+// GET /groups/status
+// No specific parameters
+export type GetGroupsServiceStatusResponse = Schema.ServiceStatusResponse;
+
+
+// --- Endpoint: /groups/{group_username} ---
+// GET /groups/{group_username}
+
+// Referenced Schema type:
+export interface SocialTrendResponse {
+  coin_id: string;
+  name: string;
+  symbol: string;
+  contract_address?: string | null;
+  market_cap_rank?: number | null;
+  trend_market_data: TrendDataPoint[];
+}
+
+export type TimeIntervalEnum = "1h" | "4h" | "12h" | "1d"; // Note: spec has 3d, 1w for one endpoint, but this is the common one
+export type KeywordTimeIntervalEnum = "1h" | "4h" | "12h" | "1d" | "3d" | "1w";
+
+
+export type MatchModeEnum = "exact" | "any" | "all" | "fuzzy" | "partial";
+
+export interface KeywordDataPoint {
+  date: string; // ISO format
+  count: number;
+}
+
+export interface KeywordTrendResponse {
+  keyword: string;
+  match_mode: string; // MatchModeEnum
+  time_interval: string; // TimeIntervalEnum / KeywordTimeIntervalEnum
+  duration: number;
+  data: KeywordDataPoint[];
+}
+
+export interface ProjectSummary {
+  coin_id: string;
+```
+
+#### Example
+```typescript
+const result = await socialService.getSocialTrends(params);
+```
+
+## Complete Example
+
+```typescript
+import { TrendmoonApiClient } from './api/TrendmoonApiClient.js';
+import { SocialService } from './services/SocialService.js';
+
+// Initialize the API client and service
+const apiClient = new TrendmoonApiClient();
+const socialService = new SocialService(apiClient);
+
+// Example usage of the service
+(async () => {
+  try {
+    // Use any method from the service
+    const result = await socialService.someMethod();
+    console.log('Result:', result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+})();
+```

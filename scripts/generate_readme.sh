@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Get the root directory of the project (parent directory of the scripts folder)
+PROJECT_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
+
+# Go to the project root directory to ensure all paths are relative to it
+cd "$PROJECT_ROOT"
+
 # Script to generate README.md with links to documentation
 
 echo "🚀 Generating README.md..."
