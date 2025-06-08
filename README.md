@@ -21,12 +21,14 @@ cp .env.example .env
 
 ```typescript
 import { TrendmoonApiClient } from '@trendmoon/api-client';
+import { CategoryService } from '../src';
 
 // Initialize the API client
 const apiClient = new TrendmoonApiClient();
 
 // Use the services
-const result = await apiClient.someService.someMethod();
+const service = new CategoryService(apiClient);
+const result = await service.getAllCategories();
 ```
 
 ## Available Services
