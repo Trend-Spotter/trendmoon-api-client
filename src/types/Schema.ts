@@ -400,3 +400,16 @@ export interface CategoryCoinResponse {
   category_name: string; // Category name
   coins: CategoryCoinItem[]; // Array of category coins
 }
+
+export interface TopicSummaryResponse {
+  overview: string;
+  recent_sentiment: {
+    sentiment: string;
+    bullish: string;
+    bearish: string;
+  };
+  developments_and_catalysts: string;
+  full_report: string;
+  topic: string;
+  generated_at: string; // date-time
+}

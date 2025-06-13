@@ -311,3 +311,10 @@ export interface GetGeneralStatusResponse {
   message?: string;
   [key: string]: any; // To allow for an empty object or other properties
 }
+
+// --- Endpoint: /social/topic_summary ---
+// GET /social/topic_summary
+export interface GetTopicSummaryParams {
+  topic: string; // required
+}
+export type GetTopicSummaryResponse = Schema.TopicSummaryResponse;

@@ -63,4 +63,12 @@ export class SocialService {
   public async getSocialTrends(params: Types.GetSocialTrendsParams): Promise<Types.GetSocialTrendsResponse> {
     return this.apiClient.getSocialTrends(params);
   }
+
+  /**
+   * Retrieves a summary for a specific topic.
+   * @param params - Parameters for getting topic summary.
+   */
+  public async getTopicSummary(params: Types.GetTopicSummaryParams): Promise<Types.GetTopicSummaryResponse> {
+    return this.apiClient.getTopicSummary(params);
+  }
 }
