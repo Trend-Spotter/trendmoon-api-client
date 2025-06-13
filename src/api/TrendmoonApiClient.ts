@@ -181,6 +181,11 @@ export class TrendmoonApiClient {
     return this.request<Types.GetTopicNewsResponse>('/social/topic_news', 'GET', params);
   }
 
+  // --- /social/topic_summary ---
+  public async getTopicSummary(params: Types.GetTopicSummaryParams): Promise<Types.GetTopicSummaryResponse> {
+    return this.request<Types.GetTopicSummaryResponse>('/social/topic_summary', 'GET', params);
+  }
+
   // --- /social/search ---
   public async searchSocialPosts(params: Types.SearchSocialPostsParams): Promise<Types.SearchSocialPostsResponse> {
     return this.request<Types.SearchSocialPostsResponse>('/social/search', 'GET', params);
