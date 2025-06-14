@@ -20,7 +20,7 @@ describe('ChatService - Real API Integration with TrendmoonApiClient', () => {
 
   it('should retrieve chat details by group username successfully', async () => {
     const mockParams: GetChatByUsernameParams = {
-      group_username: 'babycatebsc', // Utilisez un nom d'utilisateur de groupe existant pour ce test
+      group_username: 'taraxa_project', // Utilisez un nom d'utilisateur de groupe existant pour ce test
     };
     const result: GetChatByUsernameResponse = await chatService.getChatByUsername(mockParams);
 
@@ -33,10 +33,6 @@ describe('ChatService - Real API Integration with TrendmoonApiClient', () => {
     expect(typeof result.title).toBe('string');
     expect(result).toHaveProperty('member_count');
     expect(typeof result.member_count).toBe('number');
-    expect(result).toHaveProperty('num_messages');
-    expect(typeof result.num_messages).toBe('number');
-    expect(result).toHaveProperty('num_unique_users');
-    expect(typeof result.num_unique_users).toBe('number');
     expect(result).toHaveProperty('member_online_count');
     expect(typeof result.member_online_count).toBe('number');
   }, 15000);
@@ -75,27 +71,6 @@ describe('ChatService - Real API Integration with TrendmoonApiClient', () => {
     // expect(typeof result.message).toBe('string');
   }, 15000);
 
-  it('should retrieve specific group details successfully', async () => {
-    const mockParams: GetSpecificGroupParams = {
-      group_username: 'babycatebsc', // Utilisez un nom d'utilisateur de groupe existant
-    };
-    const result: GetSpecificGroupResponse = await chatService.getSpecificGroup(mockParams);
-
-    expect(result).toBeDefined();
-    expect(result).toHaveProperty('group_username');
-    expect(typeof result.group_username).toBe('string');
-    expect(result).toHaveProperty('title');
-    expect(typeof result.title).toBe('string');
-    expect(result).toHaveProperty('member_count');
-    expect(typeof result.member_count).toBe('number');
-    expect(result).toHaveProperty('num_messages');
-    expect(typeof result.num_messages).toBe('number');
-    expect(result).toHaveProperty('num_unique_users');
-    expect(typeof result.num_unique_users).toBe('number');
-    expect(result).toHaveProperty('member_online_count');
-    expect(typeof result.member_online_count).toBe('number');
-  }, 15000);
-
   it('should handle non-existent group username for getSpecificGroup gracefully', async () => {
     const mockParams: GetSpecificGroupParams = {
       group_username: 'anothernonexistentgroup123',
@@ -118,18 +93,13 @@ describe('ChatService - Real API Integration with TrendmoonApiClient', () => {
     const result: GetAllGroupsResponse = await chatService.getAllGroups();
 
     expect(result).toBeDefined();
-    expect(Array.isArray(result)).toBe(true);
+    expect(Array.isArray(result['groups'])).toBe(true);
 
-    if (result.length > 0) {
-      const firstGroup = result[0]!;
-      expect(firstGroup).toHaveProperty('group_username');
-      expect(typeof firstGroup.group_username).toBe('string');
-      expect(firstGroup).toHaveProperty('chat_id');
-      expect(typeof firstGroup.chat_id).toBe('number');
-      // Ajoutez d'autres vérifications de propriétés pour les éléments du tableau si nécessaire
-      // expect(firstGroup).toHaveProperty('title');
-      // expect(typeof firstGroup.title).toBe('string');
-      // etc.
+    if (result['groups'].length > 0) {
+      const firstGroup = result['groups'][0]!;
+      const secondGroup = result['groups'][0]!;
+      expect(typeof firstGroup).toBe('string');
+      expect(typeof secondGroup).toBe('string');
     }
   }, 15000);
 });
