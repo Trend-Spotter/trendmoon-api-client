@@ -23,11 +23,19 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          TRENDMOON_API_KEY: ${{ secrets.TRENDMOON_API_KEY }}
+          TRENDMOON_API_URL: ${{ secrets.TRENDMOON_API_URL }}
 
       - name: Run tests
         run: npm test
+        env:
+          TRENDMOON_API_KEY: ${{ secrets.TRENDMOON_API_KEY }}
+          TRENDMOON_API_URL: ${{ secrets.TRENDMOON_API_URL }}
 
       - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TRENDMOON_API_KEY: ${{ secrets.TRENDMOON_API_KEY }}
+          TRENDMOON_API_URL: ${{ secrets.TRENDMOON_API_URL }}
