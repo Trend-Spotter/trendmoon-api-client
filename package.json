@@ -12,7 +12,9 @@
     "test:coverage": "vitest run --coverage --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --watch --config vitest.config.ts",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "version": "node -e \"require('fs').writeFileSync('CHANGELOG.md', require('fs').readFileSync('CHANGELOG.md', 'utf8').replace('## [Unreleased]', '## [Unreleased]\\n\\n## [' + require('./package.json').version + '] - ' + new Date().toISOString().split('T')[0]))\" && git add CHANGELOG.md",
+    "postversion": "git push --follow-tags"
   },
   "files": [
     "dist/**/*",

@@ -1,0 +1,28 @@
+# Source files
+src/
+tests/
+docs/
+
+# Development files
+.env
+.env.*
+.git/
+.gitignore
+.github/
+.vscode/
+*.log
+
+# Build and test files
+coverage/
+.nyc_output/
+vitest.config.ts
+tsconfig.json
+
+# Scripts
+generate_docs.sh
+generate_readme.sh
+
+# Editor files
+*.swp
+*.swo
+.DS_Store
