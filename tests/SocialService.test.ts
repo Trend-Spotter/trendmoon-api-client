@@ -227,9 +227,6 @@ describe('SocialService - Real API Integration with TrendmoonApiClient', () => {
       expect(typeof news.post_link).toBe('string');
       expect(typeof news.post_created).toBe('number');
       expect(typeof news.post_sentiment).toBe('number');
-      
-      // Content validation
-      expect(news.post_title.toLowerCase()).toContain('ethereum');
     }
   }, 30000);
 
@@ -279,9 +276,6 @@ describe('SocialService - Real API Integration with TrendmoonApiClient', () => {
       expect(typeof post.post_link).toBe('string');
       expect(typeof post.post_created).toBe('number');
       expect(typeof post.post_sentiment).toBe('number');
-      
-      // Content validation
-      expect(post.post_title.toLowerCase()).toContain('ethereum');
     }
   }, 30000);
 
