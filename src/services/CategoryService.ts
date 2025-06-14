@@ -24,24 +24,10 @@ export class CategoryService {
   }
 
   /**
-   * Retrieves top alerts for today.
-   */
-  public async getTopAlertsToday(): Promise<Types.GetTopAlertsTodayResponse> {
-    return this.apiClient.getTopAlertsToday();
-  }
-
-  /**
    * Retrieves top categories for today.
    */
   public async getTopCategoriesToday(): Promise<Types.GetTopCategoriesTodayResponse> {
     return this.apiClient.getTopCategoriesToday();
-  }
-
-  /**
-   * Retrieves top category alerts.
-   */
-  public async getTopCategoryAlerts(): Promise<Types.GetTopCategoryAlertsResponse> {
-    return this.apiClient.getTopCategoryAlerts();
   }
 
   /**

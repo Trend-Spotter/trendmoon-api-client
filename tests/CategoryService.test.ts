@@ -1,20 +1,18 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { CategoryService } from '../src';
 import { TrendmoonApiClient } from '../src';
 import type {
   GetCategoryDominanceForAssetsParams,
   GetCategoryDominanceForAssetsResponse,
   GetAllCategoriesResponse,
-  GetTopAlertsTodayResponse,
   GetTopCategoriesTodayResponse,
-  GetTopCategoryAlertsResponse,
   GetCategoryCoinsLegacyParams,
   GetCategoryCoinsLegacyResponse,
   GetCategoryCoinsParams,
   GetCategoryCoinsResponse,
 } from '../src';
 
-import type { CategoryDominance, TopAlertsResponse } from '../src';
-
+import type { CategoryDominance } from '../src';
 
 describe('CategoryService - Real API Integration with TrendmoonApiClient', () => {
   let categoryService: CategoryService;
@@ -36,7 +34,7 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
   }, 15000);
 
   it('should retrieve category dominance for assets successfully with detailed metrics', async () => {
-    const mockParams: GetCategoryDominanceForAssetsParams = { category_name: ['Meme', 'DeFi'], duration: 30 };
+    const mockParams: GetCategoryDominanceForAssetsParams = { category_name: ['Meme', 'Decentralized Finance (DeFi)'], duration: 30 };
     const result: GetCategoryDominanceForAssetsResponse = await categoryService.getCategoryDominanceForAssets(mockParams);
 
     expect(result).toBeDefined();
@@ -64,20 +62,6 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
     }
   }, 15000);
 
-  it('should retrieve top alerts for today successfully', async () => {
-    const result: GetTopAlertsTodayResponse = await categoryService.getTopAlertsToday();
-
-    expect(result).toBeDefined();
-    expect(Array.isArray(result)).toBe(true);
-    if (result.length > 0) {
-      const firstAlert: TopAlertsResponse = result[0]!;
-      expect(firstAlert).toHaveProperty('category');
-      expect(firstAlert).toHaveProperty('symbol');
-      expect(firstAlert).toHaveProperty('name');
-      expect(firstAlert).toHaveProperty('score');
-    }
-  }, 15000);
-
   it('should retrieve top categories for today successfully', async () => {
     const result: GetTopCategoriesTodayResponse = await categoryService.getTopCategoriesToday();
 
@@ -88,20 +72,6 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
 
       expect(firstCategory).toHaveProperty('category_name');
       expect(firstCategory).toHaveProperty('score');
-    }
-  }, 15000);
-
-  it('should retrieve top category alerts successfully', async () => {
-    const result: GetTopCategoryAlertsResponse = await categoryService.getTopCategoryAlerts();
-
-    expect(result).toBeDefined();
-    expect(Array.isArray(result)).toBe(true);
-    if (result.length > 0) {
-      const firstCategoryAlert: TopAlertsResponse = result[0]!;
-      expect(firstCategoryAlert).toHaveProperty('category');
-      expect(firstCategoryAlert).toHaveProperty('symbol');
-      expect(firstCategoryAlert).toHaveProperty('name');
-      expect(firstCategoryAlert).toHaveProperty('score');
     }
   }, 15000);
 
