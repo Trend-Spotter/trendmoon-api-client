@@ -42,7 +42,7 @@ describe('CoinService - Real API Integration with TrendmoonApiClient', () => {
   }, 15000);
 
   it('should search coins by category successfully', async () => {
-    const mockParams: SearchCoinsParams = { category: 'decentralized-finance-defi', page_size: 5 };
+    const mockParams: SearchCoinsParams = { category: 'Decentralized Finance (DeFi)', page_size: 5 };
     const result: SearchCoinsResponse = await coinService.searchCoins(mockParams);
 
     expect(result).toBeDefined();
