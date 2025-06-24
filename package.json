@@ -14,9 +14,9 @@
     "test:watch": "vitest --watch --config vitest.config.ts",
     "dev": "tsc --watch",
     "version": "node -e \"require('fs').writeFileSync('CHANGELOG.md', require('fs').readFileSync('CHANGELOG.md', 'utf8').replace('## [Unreleased]', '## [Unreleased]\\n\\n## [' + require('./package.json').version + '] - ' + new Date().toISOString().split('T')[0]))\" && git add CHANGELOG.md",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
     "test:mock": "vitest run --config vitest.config.ts tests/*.mock.test.ts tests/AlertService.test.ts tests/CategoryCoinService.test.ts",
-    "test:integration": "vitest run --config vitest.config.ts tests/CategoryService.test.ts tests/ChatService.test.ts tests/CoinService.test.ts tests/MessageService.test.ts tests/UserService.test.ts tests/ChatActivityService.test.ts tests/TrendmoonApiClient.test.ts tests/SocialService.test.ts",
+    "test:integration": "vitest run --config vitest.config.ts tests/CategoryService.test.ts tests/ChatService.test.ts tests/CoinService.test.ts tests/MessageService.test.ts tests/UserService.test.ts tests/ChatActivityService.test.ts tests/TrendmoonApiClient.test.ts tests/SocialService.test.ts"
   },
   "files": [
     "dist/**/*",
