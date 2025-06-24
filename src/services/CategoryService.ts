@@ -1,6 +1,10 @@
 import { TrendmoonApiClient } from '../api/TrendmoonApiClient.js';
 import * as Types from '../types/ResponseAndParams.js';
 
+/**
+ * CategoryService handles core category operations
+ * Focused on category data and dominance analysis
+ */
 export class CategoryService {
   private apiClient: TrendmoonApiClient;
 
@@ -10,7 +14,8 @@ export class CategoryService {
 
   /**
    * Retrieves category dominance data for assets.
-   * @param params - Parameters for getting category dominance.
+   * @param params - Parameters for getting category dominance
+   * @returns Promise resolving to category dominance data
    */
   public async getCategoryDominanceForAssets(params?: Types.GetCategoryDominanceForAssetsParams): Promise<Types.GetCategoryDominanceForAssetsResponse> {
     return this.apiClient.getCategoryDominanceForAssets(params);
@@ -18,31 +23,9 @@ export class CategoryService {
 
   /**
    * Retrieves a list of all available categories.
+   * @returns Promise resolving to all available categories
    */
   public async getAllCategories(): Promise<Types.GetAllCategoriesResponse> {
     return this.apiClient.getAllCategories();
-  }
-
-  /**
-   * Retrieves top categories for today.
-   */
-  public async getTopCategoriesToday(): Promise<Types.GetTopCategoriesTodayResponse> {
-    return this.apiClient.getTopCategoriesToday();
-  }
-
-  /**
-   * Retrieves coins within a specific category (legacy endpoint).
-   * @param params - Parameters for getting category coins (legacy).
-   */
-  public async getCategoryCoinsLegacy(params: Types.GetCategoryCoinsLegacyParams): Promise<Types.GetCategoryCoinsLegacyResponse> {
-    return this.apiClient.getCategoryCoinsLegacy(params);
-  }
-
-  /**
-   * Retrieves coins within a specific category.
-   * @param params - Parameters for getting category coins.
-   */
-  public async getCategoryCoins(params: Types.GetCategoryCoinsParams): Promise<Types.GetCategoryCoinsResponse> {
-    return this.apiClient.getCategoryCoins(params);
   }
 }

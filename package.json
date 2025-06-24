@@ -1,6 +1,6 @@
 {
   "name": "@trendmoon/api-client",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Official TypeScript client for Trendmoon API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,6 +15,8 @@
     "dev": "tsc --watch",
     "version": "node -e \"require('fs').writeFileSync('CHANGELOG.md', require('fs').readFileSync('CHANGELOG.md', 'utf8').replace('## [Unreleased]', '## [Unreleased]\\n\\n## [' + require('./package.json').version + '] - ' + new Date().toISOString().split('T')[0]))\" && git add CHANGELOG.md",
     "postversion": "git push --follow-tags"
+    "test:mock": "vitest run --config vitest.config.ts tests/*.mock.test.ts tests/AlertService.test.ts tests/CategoryCoinService.test.ts",
+    "test:integration": "vitest run --config vitest.config.ts tests/CategoryService.test.ts tests/ChatService.test.ts tests/CoinService.test.ts tests/MessageService.test.ts tests/UserService.test.ts tests/ChatActivityService.test.ts tests/TrendmoonApiClient.test.ts tests/SocialService.test.ts",
   },
   "files": [
     "dist/**/*",
@@ -30,16 +32,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.7.0",
-    "dotenv": "^16.0.0",
-    "zod": "^3.22.0"
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.4.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/coverage-v8": "^1.0.0",
-    "@types/node": "^20.0.0",
-    "@types/node-fetch": "^2.6.4"
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@types/node": "^20.14.8"
   },
   "engines": {
     "node": ">=16.0.0"

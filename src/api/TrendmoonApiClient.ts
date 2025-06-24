@@ -1,19 +1,42 @@
 import { config } from '../config/env.js';
 import fetch from 'node-fetch';
 import { debugLog } from '../utils/debug.js';
-import * as Types from '../types/ResponseAndParams.js'; // Importer tous les types de requêtes/réponses
+import { 
+  TrendmoonNetworkError, 
+  TrendmoonApiError, 
+  createErrorFromResponse 
+} from '../utils/errors.js';
+import { withRetry, DEFAULT_RETRY_OPTIONS } from '../utils/retry.js';
+import * as Types from '../types/ResponseAndParams.js'; // Import all request/response types
 
 
 export class TrendmoonApiClient {
   private readonly baseUrl: string;
   private readonly apiKey: string;
+  private readonly enableRetry: boolean;
 
-  constructor() {
+  constructor(enableRetry: boolean = true) {
     this.baseUrl = config.TRENDMOON_API_URL;
     this.apiKey = config.TRENDMOON_API_KEY;
+    this.enableRetry = enableRetry;
   }
 
   private async request<T>(
+    endpoint: string,
+    method: string,
+    params?: Record<string, any>,
+    body?: any
+  ): Promise<T> {
+    const operation = () => this.makeRequest<T>(endpoint, method, params, body);
+    
+    if (this.enableRetry) {
+      return withRetry(operation, DEFAULT_RETRY_OPTIONS);
+    }
+    
+    return operation();
+  }
+
+  private async makeRequest<T>(
     endpoint: string,
     method: string,
     params?: Record<string, any>,
@@ -62,17 +85,19 @@ export class TrendmoonApiClient {
       if (!response.ok) {
         const errorText = await response.text();
         debugLog.error('Error response body:', errorText);
-        let errorMessage = `Erreur API: ${response.status} - ${response.statusText}`;
+        
+        let errorMessage = `API Error: ${response.status} - ${response.statusText}`;
         try {
           const errorJson = JSON.parse(errorText);
           errorMessage = errorJson.message || errorMessage;
           if (errorJson.detail) {
-            errorMessage += `\nDétails: ${JSON.stringify(errorJson.detail)}`;
+            errorMessage += `\nDetails: ${JSON.stringify(errorJson.detail)}`;
           }
         } catch (e) {
           // Not a JSON error, use plain text
         }
-        throw new Error(errorMessage);
+        
+        throw createErrorFromResponse(response.status, response.statusText, errorText);
       }
 
       const data = await response.json();
@@ -80,7 +105,26 @@ export class TrendmoonApiClient {
       return data as T;
     } catch (error) {
       debugLog.error('Detailed error in API request:', error);
-      throw error;
+      
+      // Re-throw our custom errors as-is
+      if (error instanceof TrendmoonApiError) {
+        throw error;
+      }
+      
+      // Wrap network/fetch errors
+      if (error instanceof Error) {
+        if (error.name === 'FetchError' || error.message.includes('fetch')) {
+          throw new TrendmoonNetworkError(
+            `Network error: ${error.message}`,
+            error
+          );
+        }
+      }
+      
+      // Fallback for unknown errors
+      throw new TrendmoonApiError(
+        error instanceof Error ? error.message : 'Unknown error occurred'
+      );
     }
   }
 

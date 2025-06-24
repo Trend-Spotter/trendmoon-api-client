@@ -1,26 +1,32 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { CategoryService } from '../src';
+import { CategoryService, AlertService, CategoryCoinService } from '../src';
 import { TrendmoonApiClient } from '../src';
 import type {
   GetCategoryDominanceForAssetsParams,
   GetCategoryDominanceForAssetsResponse,
   GetAllCategoriesResponse,
+  GetTopAlertsTodayResponse,
   GetTopCategoriesTodayResponse,
+  GetTopCategoryAlertsResponse,
   GetCategoryCoinsLegacyParams,
   GetCategoryCoinsLegacyResponse,
   GetCategoryCoinsParams,
   GetCategoryCoinsResponse,
 } from '../src';
 
-import type { CategoryDominance } from '../src';
+import type { CategoryDominance, TopAlertsResponse } from '../src';
+
 
 describe('CategoryService - Real API Integration with TrendmoonApiClient', () => {
   let categoryService: CategoryService;
+  let alertService: AlertService;
+  let categoryCoinService: CategoryCoinService;
   let realApiClient: TrendmoonApiClient;
 
   beforeEach(() => {
     realApiClient = new TrendmoonApiClient();
     categoryService = new CategoryService(realApiClient);
+    alertService = new AlertService(realApiClient);
+    categoryCoinService = new CategoryCoinService(realApiClient);
   });
 
   it('should retrieve all categories successfully and contain popular ones', async () => {
@@ -34,7 +40,7 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
   }, 15000);
 
   it('should retrieve category dominance for assets successfully with detailed metrics', async () => {
-    const mockParams: GetCategoryDominanceForAssetsParams = { category_name: ['Meme', 'Decentralized Finance (DeFi)'], duration: 30 };
+    const mockParams: GetCategoryDominanceForAssetsParams = { category_name: ['Meme', 'DeFi'], duration: 30 };
     const result: GetCategoryDominanceForAssetsResponse = await categoryService.getCategoryDominanceForAssets(mockParams);
 
     expect(result).toBeDefined();
@@ -62,8 +68,22 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
     }
   }, 15000);
 
+  it('should retrieve top alerts for today successfully', async () => {
+    const result: GetTopAlertsTodayResponse = await alertService.getTopAlertsToday();
+
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    if (result.length > 0) {
+      const firstAlert: TopAlertsResponse = result[0]!;
+      expect(firstAlert).toHaveProperty('category');
+      expect(firstAlert).toHaveProperty('symbol');
+      expect(firstAlert).toHaveProperty('name');
+      expect(firstAlert).toHaveProperty('score');
+    }
+  }, 15000);
+
   it('should retrieve top categories for today successfully', async () => {
-    const result: GetTopCategoriesTodayResponse = await categoryService.getTopCategoriesToday();
+    const result: GetTopCategoriesTodayResponse = await alertService.getTopCategoriesToday();
 
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toBe(true);
@@ -75,9 +95,23 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
     }
   }, 15000);
 
+  it('should retrieve top category alerts successfully', async () => {
+    const result: GetTopCategoryAlertsResponse = await alertService.getTopCategoryAlerts();
+
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    if (result.length > 0) {
+      const firstCategoryAlert: TopAlertsResponse = result[0]!;
+      expect(firstCategoryAlert).toHaveProperty('category');
+      expect(firstCategoryAlert).toHaveProperty('symbol');
+      expect(firstCategoryAlert).toHaveProperty('name');
+      expect(firstCategoryAlert).toHaveProperty('score');
+    }
+  }, 15000);
+
   it('should retrieve coins within a specific category (legacy) successfully', async () => {
     const mockParams: GetCategoryCoinsLegacyParams = { category_name: 'Layer 1', top_n: 5 };
-    const result: GetCategoryCoinsLegacyResponse = await categoryService.getCategoryCoinsLegacy(mockParams);
+    const result: GetCategoryCoinsLegacyResponse = await categoryCoinService.getCategoryCoinsLegacy(mockParams);
 
     expect(result).toBeDefined();
     expect(result).toHaveProperty('category_name');
@@ -91,7 +125,7 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
 
   it('should retrieve coins within a specific category successfully', async () => {
     const mockParams: GetCategoryCoinsParams = { category_name: 'DeFi', top_n: 5 };
-    const result: GetCategoryCoinsResponse = await categoryService.getCategoryCoins(mockParams);
+    const result: GetCategoryCoinsResponse = await categoryCoinService.getCategoryCoins(mockParams);
 
     expect(result).toBeDefined();
     expect(result).toHaveProperty('category_name');
@@ -105,7 +139,7 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
 
   it('should handle non-existent category gracefully for getCategoryCoins', async () => {
     const mockParams: GetCategoryCoinsParams = { category_name: 'NonExistentCategory123', top_n: 1 };
-    const result: GetCategoryCoinsResponse = await categoryService.getCategoryCoins(mockParams);
+    const result: GetCategoryCoinsResponse = await categoryCoinService.getCategoryCoins(mockParams);
     expect(result).toBeDefined();
     expect(result.coins).toEqual([]);
     expect(result.category_name).toEqual('NonExistentCategory123');

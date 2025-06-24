@@ -16,17 +16,17 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     userService = new UserService(realApiClient);
   });
 
-  // Test pour searchUsers
-  it('devrait rechercher des utilisateurs sans filtres et retourner des résultats', async () => {
+  // Test for searchUsers
+  it('should search users without filters and return results', async () => {
     const mockParams: SearchUsersParams = {};
     const result: SearchUsersResponse = await userService.searchUsers(mockParams);
 
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toBe(true);
-    // Attendez-vous à un tableau d'utilisateurs, potentiellement vide mais le test est pour une réponse réussie
-    // Si l'API retourne souvent des données, assurez-vous qu'elle retourne plus de 0 utilisateurs.
-    // Pour un test d'intégration "réel", nous nous attendons à des données si l'API en a.
-    // expect(result.length).toBeGreaterThan(0); // Décommentez si vous êtes sûr que l'API renvoie toujours des utilisateurs
+    // Expect an array of users, potentially empty but test is for successful response
+    // If API often returns data, ensure it returns more than 0 users.
+    // For a "real" integration test, we expect data if the API has it.
+    // expect(result.length).toBeGreaterThan(0); // Uncomment if you're sure the API always returns users
     if (result.length > 0) {
       const firstUser = result[0]!;
       expect(firstUser).toHaveProperty('user_id');
@@ -36,7 +36,7 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     }
   }, 15000);
 
-  it('devrait rechercher des utilisateurs par username', async () => {
+  it('should search users by username', async () => {
     const mockParams: SearchUsersParams = { username: 'reedvoid' };
     const result: SearchUsersResponse = await userService.searchUsers(mockParams);
 
@@ -49,20 +49,20 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     }
   }, 15000);
 
-  it('devrait rechercher des utilisateurs filtrés par bot = true', async () => {
+  it('should search users filtered by bot = true', async () => {
     const mockParams: SearchUsersParams = { bot: true };
     const result: SearchUsersResponse = await userService.searchUsers(mockParams);
 
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toBe(true);
-    // On s'attend à ce que tous les utilisateurs retournés soient des bots si le filtre est appliqué correctement
+    // Expect all returned users to be bots if filter is applied correctly
     result.forEach(user => {
       expect(user).toHaveProperty('bot', true);
     });
-    // expect(result.length).toBeGreaterThan(0); // Décommentez si vous vous attendez à des bots spécifiques
+    // expect(result.length).toBeGreaterThan(0); // Uncomment if you expect specific bots
   }, 15000);
 
-  it('devrait rechercher des utilisateurs filtrés par verified = true', async () => {
+  it('should search users filtered by verified = true', async () => {
     const mockParams: SearchUsersParams = { verified: true };
     const result: SearchUsersResponse = await userService.searchUsers(mockParams);
 
@@ -73,7 +73,7 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     });
   }, 15000);
 
-  it('devrait rechercher des utilisateurs avec une combinaison de filtres', async () => {
+  it('should search users with a combination of filters', async () => {
     const mockParams: SearchUsersParams = { username: 'telegram', spammer: false, verified: true };
     const result: SearchUsersResponse = await userService.searchUsers(mockParams);
 
@@ -88,10 +88,10 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     });
   }, 15000);
 
-  // Test pour getUserByIdentifier
-  it('devrait récupérer les informations d\'un utilisateur par user_id', async () => {
-    // Supposons qu'un utilisateur avec cet ID existe pour le test
-    const userId = '123456789'; // Utilisez un ID d'utilisateur réel si possible
+  // Test for getUserByIdentifier
+  it('should retrieve user information by user_id', async () => {
+    // Assume a user with this ID exists for the test
+    const userId = '123456789'; // Use a real user ID if possible
     const mockParams: GetUserByIdentifierParams = { identifier: userId };
     const result: GetUserByIdentifierResponse = await userService.getUserByIdentifier(mockParams);
 
@@ -101,8 +101,8 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     expect(typeof result.username).toBe('string');
   }, 15000);
 
-  it('devrait récupérer les informations d\'un utilisateur par username', async () => {
-    const username = 'reedvoid'; // Utilisez un nom d'utilisateur réel si possible
+  it('should retrieve user information by username', async () => {
+    const username = 'reedvoid'; // Use a real username if possible
     const mockParams: GetUserByIdentifierParams = { identifier: username };
     const result: GetUserByIdentifierResponse = await userService.getUserByIdentifier(mockParams);
 
@@ -112,8 +112,8 @@ describe('UserService - Real API Integration with TrendmoonApiClient', () => {
     expect(typeof result.user_id).toBe('number');
   }, 15000);
 
-  it('devrait lancer une erreur si l\'identifiant n\'est pas trouvé', async () => {
-    const nonExistentIdentifier = 'nonexistentuser12345'; // Un identifiant qui ne devrait pas exister
+  it('should throw an error if identifier is not found', async () => {
+    const nonExistentIdentifier = 'nonexistentuser12345'; // An identifier that should not exist
     const mockParams: GetUserByIdentifierParams = { identifier: nonExistentIdentifier };
     await expect(userService.getUserByIdentifier(mockParams)).rejects.toThrow();
   }, 15000);
