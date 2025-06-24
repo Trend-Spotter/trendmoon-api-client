@@ -28,7 +28,7 @@ jobs:
           TRENDMOON_API_URL: ${{ secrets.TRENDMOON_API_URL }}
 
       - name: Run tests
-        run: npm test
+        run: npm run test:mock
         env:
           TRENDMOON_API_KEY: ${{ secrets.TRENDMOON_API_KEY }}
           TRENDMOON_API_URL: ${{ secrets.TRENDMOON_API_URL }}
