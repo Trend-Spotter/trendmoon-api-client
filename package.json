@@ -1,6 +1,6 @@
 {
   "name": "@trendmoon/api-client",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Official TypeScript client for Trendmoon API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.7.0",
     "dotenv": "^16.4.5",
     "zod": "^3.22.4"
   },
@@ -40,7 +40,8 @@
     "typescript": "^5.3.3",
     "vitest": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "@types/node": "^20.14.8"
+    "@types/node": "^20.14.8",
+    "@types/node-fetch": "^2.6.11"
   },
   "engines": {
     "node": ">=16.0.0"
