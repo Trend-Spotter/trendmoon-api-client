@@ -1,7 +1,7 @@
 # CategoryService
 
 ## Description
-This service provides methods to interact with Category-related endpoints of the Trendmoon API.
+This service provides methods to interact with Category-related endpoints of the Trendmoon API, focused on category data and dominance analysis.
 
 ## Usage
 
@@ -18,7 +18,9 @@ const categoryService = new CategoryService(apiClient);
 The following methods are available in this service:
 
 ### `getCategoryDominanceForAssets(params?)`
-Interacts with the getCategoryDominanceForAssets endpoint.
+Get mindshare dominance and performance metrics for specified categories over time.
+
+This endpoint allows you to track the market dominance of specific cryptocurrency categories (like 'Meme', 'AI', 'DeFi') over a given time period.
 
 #### Parameters
 ```typescript
@@ -28,95 +30,82 @@ export interface GetCategoryDominanceForAssetsParams {
   from_?: number;
   size?: number;
 }
-export type GetCategoryDominanceForAssetsResponse = Schema.CategoryDominance[];
-
-
-// --- Endpoint: /categories/all ---
-// GET /categories/all
-// No specific parameters
-export type GetAllCategoriesResponse = string[];
-
-
-// --- Endpoint: /coins/search ---
-// GET /coins/search
-export interface SearchCoinsParams {
-  name?: string | null;
-  symbol?: string | null;
 ```
 
 #### Returns
 ```typescript
 export type GetCategoryDominanceForAssetsResponse = Schema.CategoryDominance[];
-
-
-// --- Endpoint: /categories/all ---
-// GET /categories/all
-// No specific parameters
-export type GetAllCategoriesResponse = string[];
-
-
-// --- Endpoint: /coins/search ---
-// GET /coins/search
-
-// Referenced Schema type:
-export interface CategoryDominance {
-  date?: string; // date-time, not marked as required in schema but typical for time series
-  category_name: string;
-  category_dominance: number;
-  category_market_cap?: number; // Not marked as required, but usually present
-  dominance_pct_change?: number | null;
-  market_cap_pct_change?: number | null;
-}
-
-export type SocialTrendTimeIntervalEnum = "1h" | "1d";
-
-export interface TrendDataPoint {
-  date: string; // date-time
-  hour_social_perc_diff?: number | null;
-  day_social_perc_diff?: number | null;
-  sentiment_score?: number | null;
-  symbol_count?: number | null;
-  name_count?: number | null;
-  social_mentions?: number | null;
-  social_dominance?: number | null;
-  price?: number | null;
-  market_cap?: number | null;
-  total_volume?: number | null;
-  lc_posts_created?: number | null;
-  lc_posts_active?: number | null;
-  lc_interactions?: number | null;
-  lc_contributors_created?: number | null;
-  lc_contributors_active?: number | null;
-  lc_sentiment?: number | null;
-  lc_social_dominance?: number | null;
 ```
 
 #### Example
 ```typescript
-const result = await categoryService.getCategoryDominanceForAssets(params?);
+// Get dominance data for Meme and DeFi categories over the last 30 days
+const result = await categoryService.getCategoryDominanceForAssets({
+  category_name: ['Meme', 'Decentralized Finance (DeFi)'],
+  duration: 30,
+  from_: 0,
+  size: 100
+});
+```
+
+### `getTopCategoriesDominance(params?)`
+Get top categories by market performance for the last day with pagination support.
+
+#### Parameters
+```typescript
+export interface GetTopCategoriesDominanceParams {
+  from_?: number;
+  size?: number;
+  sort_by?: string;
+  sort_order?: string;
+}
+```
+
+- **from_**: Starting point for pagination (default: 0)
+- **size**: Number of categories to return per page (default: 100)
+- **sort_by**: Sorting criteria (default: 'category_market_cap')
+  - 'category_market_cap': Sort by total market capitalization
+  - 'category_mindshare_dominance': Sort by mindshare dominance percentage
+  - 'market_cap_pct_change': Sort by percentage change in market cap
+  - 'category_mindshare_pct_change': Sort by percentage change in mindshare dominance
+- **sort_order**: Sort order - 'desc' for highest first, 'asc' for lowest first (default: 'desc')
+
+#### Returns
+```typescript
+export type GetTopCategoriesDominanceResponse = Schema.CategoryDominanceResponse[];
+```
+
+#### Example
+```typescript
+// Get top 20 categories with highest market cap growth
+const result = await categoryService.getTopCategoriesDominance({
+  from_: 0,
+  size: 20,
+  sort_by: 'market_cap_pct_change',
+  sort_order: 'desc'
+});
+
+// Get next 20 categories for pagination
+const nextPage = await categoryService.getTopCategoriesDominance({
+  from_: 20,
+  size: 20,
+  sort_by: 'category_market_cap',
+  sort_order: 'desc'
+});
 ```
 
 ### `getAllCategories()`
-Interacts with the getAllCategories endpoint.
+Get a list of all available cryptocurrency categories.
 
 #### Returns
 ```typescript
 export type GetAllCategoriesResponse = string[];
-
-
-// --- Endpoint: /coins/search ---
-// GET /coins/search
-export interface SearchCoinsParams {
-  name?: string | null;
-  symbol?: string | null;
-  category?: string | null;
-  chain?: string | null;
-  contract_address?: string | null;
 ```
 
 #### Example
 ```typescript
-const result = await categoryService.getAllCategories();
+const categories = await categoryService.getAllCategories();
+console.log('Available categories:', categories);
 ```
 
 ### `getTopAlertsToday()`
@@ -167,7 +156,7 @@ export interface TopCategoriesResponse {
 export interface CategoryCoinItem {
   coin_id: string;
   name: string;
-```
+}
 
 #### Example
 ```typescript
@@ -274,7 +263,7 @@ export interface TopCategoriesResponse {
 export interface CategoryCoinItem {
   coin_id: string;
   name: string;
-```
+}
 
 #### Example
 ```typescript
@@ -306,6 +295,7 @@ export type GetCategoryCoinsResponse = Schema.CategoryCoinResponse;
 // GET /status
 // No specific parameters
 export interface GetGeneralStatusResponse {
+}
 ```
 
 #### Returns

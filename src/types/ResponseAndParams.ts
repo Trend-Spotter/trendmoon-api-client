@@ -124,6 +124,17 @@ export interface GetCategoryDominanceForAssetsParams {
 export type GetCategoryDominanceForAssetsResponse = Schema.CategoryDominance[];
 
 
+// --- Endpoint: /categories/top_categories ---
+// GET /categories/top_categories
+export interface GetTopCategoriesDominanceParams {
+  from_?: number;
+  size?: number;
+  sort_by?: string;
+  sort_order?: string;
+}
+export type GetTopCategoriesDominanceResponse = Schema.CategoryDominanceResponse[];
+
+
 // --- Endpoint: /categories/all ---
 // GET /categories/all
 // No specific parameters

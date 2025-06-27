@@ -195,6 +195,15 @@ export interface CategoryDominance {
   market_cap_pct_change?: number | null;
 }
 
+export interface CategoryDominanceResponse {
+  date?: string; // date-time
+  category_name: string;
+  category_mindshare_dominance: number;
+  category_market_cap?: number;
+  category_mindshare_pct_change?: number | null;
+  market_cap_pct_change?: number | null;
+}
+
 export type SocialTrendTimeIntervalEnum = "1h" | "1d";
 
 export interface TrendDataPoint {

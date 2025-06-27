@@ -22,6 +22,15 @@ export class CategoryService {
   }
 
   /**
+   * Retrieves top categories by market performance for the last day with pagination support.
+   * @param params - Parameters for getting top categories dominance with sorting and pagination
+   * @returns Promise resolving to top categories dominance data
+   */
+  public async getTopCategoriesDominance(params?: Types.GetTopCategoriesDominanceParams): Promise<Types.GetTopCategoriesDominanceResponse> {
+    return this.apiClient.getTopCategoriesDominance(params);
+  }
+
+  /**
    * Retrieves a list of all available categories.
    * @returns Promise resolving to all available categories
    */

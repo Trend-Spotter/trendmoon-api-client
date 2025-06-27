@@ -7,14 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- New `getTopCategoriesDominance()` method in `CategoryService` for retrieving top categories by market performance
+- New `CategoryDominanceResponse` interface for the top categories endpoint with renamed fields for clarity
+- Support for pagination and sorting in category dominance queries with `sort_by` and `sort_order` parameters
+- Enhanced category dominance documentation with comprehensive examples
+
 ### Changed
-- **BREAKING CHANGE**: Updated `SearchCoinsParams` interface to use `query` parameter instead of separate `name` and `symbol` parameters
-- **BREAKING CHANGE**: Added `sort_by` and `sort_order` parameters to `SearchCoinsParams` for enhanced sorting capabilities
-- Updated `CoinService.searchCoins()` method documentation to reflect new query-based search functionality
-- Enhanced search functionality to work more like CoinGecko's search with single query field
+- Updated `CategoryService` documentation to better explain category dominance functionality
+- Enhanced test coverage for category dominance endpoints
 
 ### Fixed
-- Search coins endpoint now properly supports unified query search across name and symbol fields
+- Improved type definitions for category dominance responses
 
 ## [0.1.2] - 2025-06-24
 

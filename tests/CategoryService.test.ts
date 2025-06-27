@@ -3,6 +3,8 @@ import { TrendmoonApiClient } from '../src';
 import type {
   GetCategoryDominanceForAssetsParams,
   GetCategoryDominanceForAssetsResponse,
+  GetTopCategoriesDominanceParams,
+  GetTopCategoriesDominanceResponse,
   GetAllCategoriesResponse,
   GetTopAlertsTodayResponse,
   GetTopCategoriesTodayResponse,
@@ -13,7 +15,7 @@ import type {
   GetCategoryCoinsResponse,
 } from '../src';
 
-import type { CategoryDominance, TopAlertsResponse } from '../src';
+import type { CategoryDominance, CategoryDominanceResponse, TopAlertsResponse } from '../src';
 
 
 describe('CategoryService - Real API Integration with TrendmoonApiClient', () => {
@@ -66,6 +68,45 @@ describe('CategoryService - Real API Integration with TrendmoonApiClient', () =>
         expect(typeof firstRecord.market_cap_pct_change).toBe('number');
       }
     }
+  }, 15000);
+
+  it('should retrieve top categories dominance successfully with detailed metrics', async () => {
+    const mockParams: GetTopCategoriesDominanceParams = { from_: 0, size: 10, sort_by: 'category_market_cap', sort_order: 'desc' };
+    const result: GetTopCategoriesDominanceResponse = await categoryService.getTopCategoriesDominance(mockParams);
+
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0);
+
+    if (result.length > 0) {
+      const firstRecord: CategoryDominanceResponse = result[0]!;
+      expect(firstRecord).toHaveProperty('category_name');
+      expect(typeof firstRecord.category_name).toBe('string');
+      expect(firstRecord).toHaveProperty('date');
+      expect(typeof firstRecord.date).toBe('string');
+
+      expect(firstRecord).toHaveProperty('category_mindshare_dominance');
+      expect(typeof firstRecord.category_mindshare_dominance).toBe('number');
+      if (firstRecord.category_market_cap !== undefined && firstRecord.category_market_cap !== null) {
+        expect(typeof firstRecord.category_market_cap).toBe('number');
+      }
+      if (firstRecord.category_mindshare_pct_change !== undefined && firstRecord.category_mindshare_pct_change !== null) {
+        expect(typeof firstRecord.category_mindshare_pct_change).toBe('number');
+      }
+      if (firstRecord.market_cap_pct_change !== undefined && firstRecord.market_cap_pct_change !== null) {
+        expect(typeof firstRecord.market_cap_pct_change).toBe('number');
+      }
+    }
+  }, 15000);
+
+  it('should retrieve top categories dominance with different sorting options', async () => {
+    const mockParams: GetTopCategoriesDominanceParams = { from_: 0, size: 5, sort_by: 'category_mindshare_dominance', sort_order: 'desc' };
+    const result: GetTopCategoriesDominanceResponse = await categoryService.getTopCategoriesDominance(mockParams);
+
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result.length).toBeLessThanOrEqual(5);
   }, 15000);
 
   it('should retrieve top alerts for today successfully', async () => {

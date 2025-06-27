@@ -180,6 +180,11 @@ export class TrendmoonApiClient {
     return this.request<Types.GetCategoryDominanceForAssetsResponse>('/categories/dominance', 'GET', params);
   }
 
+  // --- /categories/top_categories ---
+  public async getTopCategoriesDominance(params?: Types.GetTopCategoriesDominanceParams): Promise<Types.GetTopCategoriesDominanceResponse> {
+    return this.request<Types.GetTopCategoriesDominanceResponse>('/categories/top_categories', 'GET', params);
+  }
+
   // --- /categories/all ---
   public async getAllCategories(): Promise<Types.GetAllCategoriesResponse> {
     return this.request<Types.GetAllCategoriesResponse>('/categories/all', 'GET');
