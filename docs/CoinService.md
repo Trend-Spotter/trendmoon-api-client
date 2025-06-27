@@ -18,19 +18,36 @@ const coinService = new CoinService(apiClient);
 The following methods are available in this service:
 
 ### `searchCoins(params?)`
-Interacts with the searchCoins endpoint.
+Searches for coins using a single query field that searches both name and symbol.
+Just like CoinGecko's search - type 'bitcoin', 'BTC', 'ethereum', 'ETH', etc.
+Results are automatically ranked by relevance and market cap.
+
+Examples:
+- query="bitcoin" → finds Bitcoin, Bitcoin Cash, etc.
+- query="BTC" → finds Bitcoin (highest market cap BTC)
+- query="uni" → finds Uniswap and other UNI tokens
+- query="MOON" → finds all MOON tokens sorted by market cap
+
+Additional filters can be combined:
+- chain: Filter by blockchain (e.g., ethereum, polygon)
+- category: Filter by category (e.g., defi, gaming)
+- contract_address: Find specific token by address
+- group_username: Find by Telegram group
+- sort_by: Sort by market_cap, fdv, name, symbol (default: market_cap)
+- sort_order: Sort order asc or desc (default: desc)
 
 #### Parameters
 ```typescript
 export interface SearchCoinsParams {
-  name?: string | null;
-  symbol?: string | null;
+  query?: string | null;
   category?: string | null;
   chain?: string | null;
   contract_address?: string | null;
   group_username?: string | null;
   page?: number;
   page_size?: number;
+  sort_by?: string;
+  sort_order?: string;
 }
 export type SearchCoinsResponse = Schema.Coin[];
 
@@ -93,7 +110,22 @@ export interface CoinCommunityData {
 
 #### Example
 ```typescript
-const result = await coinService.searchCoins(params?);
+// Search for Bitcoin using query parameter
+const bitcoinResults = await coinService.searchCoins({ query: 'bitcoin' });
+
+// Search for ETH tokens sorted by market cap
+const ethResults = await coinService.searchCoins({ 
+  query: 'ETH', 
+  sort_by: 'market_cap', 
+  sort_order: 'desc' 
+});
+
+// Search within DeFi category with pagination
+const defiResults = await coinService.searchCoins({ 
+  category: 'Decentralized Finance (DeFi)', 
+  page: 1, 
+  page_size: 10 
+});
 ```
 
 ### `getPlatforms()`
@@ -112,6 +144,7 @@ export interface GetCoinDetailsParams {
   project_name?: string | null;
   coin_id?: string | null;
   telegram_channel?: string | null;
+}
 ```
 
 #### Example
@@ -211,9 +244,26 @@ const coinService = new CoinService(apiClient);
 // Example usage of the service
 (async () => {
   try {
-    // Use any method from the service
-    const result = await coinService.someMethod();
-    console.log('Result:', result);
+    // Search for Bitcoin by name
+    const bitcoinResults = await coinService.searchCoins({ query: 'bitcoin' });
+    console.log('Bitcoin search results:', bitcoinResults);
+
+    // Search for tokens with "UNI" and sort by market cap
+    const uniResults = await coinService.searchCoins({ 
+      query: 'UNI', 
+      sort_by: 'market_cap', 
+      sort_order: 'desc',
+      page_size: 5 
+    });
+    console.log('UNI token results:', uniResults);
+
+    // Get all available platforms
+    const platforms = await coinService.getPlatforms();
+    console.log('Available platforms:', platforms);
+
+    // Get coin details by ID
+    const coinDetails = await coinService.getCoinDetails({ coin_id: 'ethereum' });
+    console.log('Ethereum details:', coinDetails);
   } catch (error) {
     console.error('Error:', error);
   }

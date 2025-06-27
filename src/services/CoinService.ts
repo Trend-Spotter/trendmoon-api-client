@@ -9,7 +9,24 @@ export class CoinService {
   }
 
   /**
-   * Searches for coins based on various criteria.
+   * Searches for coins using a single query field that searches both name and symbol.
+   * Just like CoinGecko's search - type 'bitcoin', 'BTC', 'ethereum', 'ETH', etc.
+   * Results are automatically ranked by relevance and market cap.
+   * 
+   * Examples:
+   * - query="bitcoin" → finds Bitcoin, Bitcoin Cash, etc.
+   * - query="BTC" → finds Bitcoin (highest market cap BTC)
+   * - query="uni" → finds Uniswap and other UNI tokens
+   * - query="MOON" → finds all MOON tokens sorted by market cap
+   * 
+   * Additional filters can be combined:
+   * - chain: Filter by blockchain (e.g., ethereum, polygon)
+   * - category: Filter by category (e.g., defi, gaming)
+   * - contract_address: Find specific token by address
+   * - group_username: Find by Telegram group
+   * - sort_by: Sort by market_cap, fdv, name, symbol (default: market_cap)
+   * - sort_order: Sort order asc or desc (default: desc)
+   * 
    * @param params - Parameters for searching coins.
    */
   public async searchCoins(params?: Types.SearchCoinsParams): Promise<Types.SearchCoinsResponse> {

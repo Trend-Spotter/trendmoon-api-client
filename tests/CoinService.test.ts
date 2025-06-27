@@ -18,7 +18,7 @@ describe('CoinService - Real API Integration with TrendmoonApiClient', () => {
   });
 
   it('should search coins by name successfully', async () => {
-    const mockParams: SearchCoinsParams = { name: 'bitcoin' };
+    const mockParams: SearchCoinsParams = { query: 'bitcoin' };
     const result: SearchCoinsResponse = await coinService.searchCoins(mockParams);
 
     expect(result).toBeDefined();
@@ -30,7 +30,7 @@ describe('CoinService - Real API Integration with TrendmoonApiClient', () => {
   }, 15000);
 
   it('should search coins by symbol successfully', async () => {
-    const mockParams: SearchCoinsParams = { symbol: 'eth' };
+    const mockParams: SearchCoinsParams = { query: 'eth' };
     const result: SearchCoinsResponse = await coinService.searchCoins(mockParams);
 
     expect(result).toBeDefined();
@@ -63,6 +63,20 @@ describe('CoinService - Real API Integration with TrendmoonApiClient', () => {
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBe(2);
+  }, 15000);
+
+  it('should search coins with sorting parameters', async () => {
+    const mockParams: SearchCoinsParams = { 
+      query: 'BTC', 
+      page_size: 5, 
+      sort_by: 'market_cap', 
+      sort_order: 'desc' 
+    };
+    const result: SearchCoinsResponse = await coinService.searchCoins(mockParams);
+
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0);
   }, 15000);
 
   it('should return all coins if no filters are provided', async () => {

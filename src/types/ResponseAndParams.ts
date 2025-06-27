@@ -133,14 +133,15 @@ export type GetAllCategoriesResponse = string[];
 // --- Endpoint: /coins/search ---
 // GET /coins/search
 export interface SearchCoinsParams {
-  name?: string | null;
-  symbol?: string | null;
+  query?: string | null;
   category?: string | null;
   chain?: string | null;
   contract_address?: string | null;
   group_username?: string | null;
   page?: number;
   page_size?: number;
+  sort_by?: string;
+  sort_order?: string;
 }
 export type SearchCoinsResponse = Schema.Coin[];
 
